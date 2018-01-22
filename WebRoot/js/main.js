@@ -372,10 +372,23 @@ function _initACHILLESPLAYERS(o) {
 					html += '<ul class="list-group list-group-unbordered">';
 					retObj.regInfoForEdit.adversaries.forEach(function(player, index){
 						html += '<li class="list-group-item"><div class="row">';
-						html += '<div class="col-xs-11"><div class="row "><div class="col-xs-12"><select id="adversary' + index + '" class="form-control select2" data-placeholder="选择挑战对手" style="width: 100%;"></select></div></div><div class="row"><div class="col-xs-12"><select id="plat' + index + '" class="form-control select2" multiple="multiple" data-placeholder="选择地图可多选！！！" style="width: 100%;"></select></div></div></div>';
+						html += '<div class="col-xs-11">';
+						html += 	'<div class="row "><div class="col-xs-12"><select id="adversary' + index + '" class="form-control select2" data-placeholder="选择挑战对手" style="width: 100%;"></select></div></div>';
+						html += 	'<div class="row style-select"><div class="col-xs-12">';
+						html +=			'<div class="subject-info-box-1"><select id="lstBox' + index + '" class="form-control" multiple></select></div>';
+						html +=			'<div class="subject-info-arrows text-center"><br />';
+						html +=				'<input type="button" id="btnAllRight' + index + '" value=">>" class="btn btn-default" /><br />';
+						html +=				'<input type="button" id="btnRight' + index + '" value=">" class="btn btn-default" /><br />';
+						html +=				'<input type="button" id="btnLeft' + index + '" value="<" class="btn btn-default" /><br />';
+						html +=				'<input type="button" id="btnAllLeft' + index + '" value="<<" class="btn btn-default" />';
+						html +=			'</div>';
+						html +=			'<div class="subject-info-box-2"><select multiple class="form-control" id="plat' + index + '"></select></div>';
+						html +=			'<div class="clearfix"></div>';
+						html +=		'</div></div>';
+						html += '</div>';
 						html += '<div class="col-xs-1"><a class="btn btn-app clearAdversaryItem" data-index="' + index + '"><i class="fa fa-trash-o"></i> 清空</a></div>';
 						html += '</div></li>';
-						playerOptionStr += '<option value=' + player.id + '>第' + player.ranking + '名 - ' + player.name + ' - ' + player.loginId + ' - ' + player.race + '</option>';
+						playerOptionStr += '<option value=' + player.id + '>第' + player.ranking + '名 - ' + player.loginId + '[' + player.race + ']</option>';
 					});
 					html += '</ul></div>';
 					
@@ -407,18 +420,42 @@ function _initACHILLESPLAYERS(o) {
 						$('#adversary'+ index).val(adversaryId).select2();
 					});
 					
-					$('#plat0, #plat1, #plat2, #plat3, #plat4').append( platOptionStr );
-					$('#plat0, #plat1, #plat2, #plat3, #plat4').each(function(){
-						$(this).val([]).select2();
+					$('[id^=lstBox]').each(function(index, lstBox){
+						var self = $(this);
+						self.append( platOptionStr );
+						$('#btnRight' + index).click(function (e) {
+				            $('select').moveToListAndDelete('#lstBox' + index, '#plat' + index);
+				            e.preventDefault();
+						});
+						
+				        $('#btnAllRight' + index).click(function (e) {
+				            $('select').moveAllToListAndDelete('#lstBox' + index, '#plat' + index);
+				            e.preventDefault();
+				        });
+				        
+				        $('#btnLeft' + index).click(function (e) {
+				            $('select').moveToListAndDelete('#plat' + index, '#lstBox' + index);
+				            e.preventDefault();
+				        });
+				        
+				        $('#btnAllLeft' + index).click(function (e) {
+				            $('select').moveAllToListAndDelete('#plat' + index, '#lstBox' + index);
+				            e.preventDefault();
+				        });
 					});
 					retObj.regInfo.platIds.forEach(function(platId, index){
 						if( platId != null ) {
 							var selectedPlat = platId.split(',');
-							$('#plat'+ index).val( selectedPlat ).select2();	
+							$('#lstBox'+ index).val( selectedPlat[0] );
+							$('#btnRight' + index).click();
+							$('#lstBox'+ index).val( selectedPlat[1] );
+							$('#btnRight' + index).click();
+							$('#lstBox'+ index).val( selectedPlat[2] );
+							$('#btnRight' + index).click();
 						}
 					});
 					
-					$('#week0, #week1, #week2, #week3, #week4, #week5, #week6').iCheck({
+					$('[id^=week]').iCheck({
 					    checkboxClass: 'icheckbox_square-blue margin',
 						radioClass: 'iradio_square-blue margin',
 					    increaseArea: '20%' // optional
@@ -444,7 +481,7 @@ function _initACHILLESPLAYERS(o) {
 			var index = $(this).data('index');
 			if ( index != null && index >= 0 ) {
 				$('#adversary' + index).val([]).select2();
-				$('#plat' + index).val([]).select2();
+				$('#btnAllLeft' + index).click();
 			}
 		},
 		saveRegistrationInfo: function () {
@@ -453,16 +490,16 @@ function _initACHILLESPLAYERS(o) {
 			regInfo.adversaryIds = [];
 			regInfo.platIds = [];
 			var message = '';
-			$('#adversary0, #adversary1, #adversary2, #adversary3, #adversary4').each(function(index, adversary){
+			$('[id^=adversary]').each(function(index, adversary){
 				var self = $(this);
-				var platId = $('#plat' + index).val();
+				var plats = $('#plat' + index + ' option');
 				if( self.val() != null ) {
-					if( platId == null ) {
+					if( plats.length == 0 ) {
 						message = "没有为比赛指定地图！";
 						$.ACHILLESPLAYERS.tipMessage(message, false);
 						return;
 					}
-					if( platId.length != 3 ) {
+					if( plats.length != 3 ) {
 						message = "每场挑战要选择三张地图！";
 						$.ACHILLESPLAYERS.tipMessage(message, false);
 						return;
@@ -472,6 +509,10 @@ function _initACHILLESPLAYERS(o) {
 						$.ACHILLESPLAYERS.tipMessage(message, false);
 						return;
 					}
+					var platId = [];
+					platId.push( plats[0].value );
+					platId.push( plats[1].value );
+					platId.push( plats[2].value );
 					regInfo.adversaryIds.push(self.val());
 					regInfo.platIds.push(platId.toString());
 				}
@@ -488,7 +529,7 @@ function _initACHILLESPLAYERS(o) {
 			}
 			
 			regInfo.dayIds= [];
-			$('#week0, #week1, #week2, #week3, #week4, #week5, #week6').each(function(index, day){
+			$('[id^=week]').each(function(index, day){
 				var self = $(this);
 				if(self.prop('checked')) {
 					var dayId = self.val();
@@ -543,6 +584,52 @@ function _initACHILLESPLAYERS(o) {
 					            { title: "比分", data: "score" }					            
 					        ],
 					        columnDefs: [
+					        	{
+									render: function ( data, type, row ) {
+										var bgcolor = '';
+										if(row.challengerVranking < 11 ) {
+											bgcolor = 'bg-purple';
+										}
+										else if(row.challengerVranking < 21 ) {
+											bgcolor = 'bg-yellow';
+										}
+										else if(row.challengerVranking < 31 ) {
+											bgcolor = 'bg-blue';
+										}
+										else if(row.challengerVranking < 41 ) {
+											bgcolor = 'bg-green';
+										}
+										else{
+											bgcolor = 'bg-red';
+										}
+										var html = '<span class="margin badge ' + bgcolor + '"> '+ row.challengerVranking + '</span>' + data;
+										return html;
+									},
+									targets: 0
+								},
+								{
+									render: function ( data, type, row ) {
+										var bgcolor = '';
+										if(row.adversaryVranking < 11 ) {
+											bgcolor = 'bg-purple';
+										}
+										else if(row.adversaryVranking < 21 ) {
+											bgcolor = 'bg-yellow';
+										}
+										else if(row.adversaryVranking < 31 ) {
+											bgcolor = 'bg-blue';
+										}
+										else if(row.adversaryVranking < 41 ) {
+											bgcolor = 'bg-green';
+										}
+										else {
+											bgcolor = 'bg-red';
+										}
+										var html = '<span class="margin badge ' + bgcolor + '"> '+ row.adversaryVranking + '</span>' + data;
+										return html;
+									},
+									targets: 1
+								},
 					        	{
 									render: function ( data, type, row ) {
 										var html = '';
