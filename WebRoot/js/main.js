@@ -651,19 +651,19 @@ function _initACHILLESPLAYERS(o) {
 									render: function ( data, type, row ) {
 										var html = '';
 										if(data === 1) {
-											html = '<span class="winner fa fa-flag">' + row.challengerName + '</span><span class="looser fa fa-bomb">' + row.adversaryName + '</span>';
+											html = '<span class="badge bg-red margin fa fa-flag">' + row.challengerName + '</span><span class="badge bg-black margin fa fa-bomb">' + row.adversaryName + '</span>';
 										}
 										else if(data === 2) {
-											html = '<span class="looser fa fa-bomb">' + row.challengerName + '</span><span class="winner fa fa-flag">' + row.adversaryName + '</span>';
+											html = '<span class="badge bg-black margin fa fa-bomb">' + row.challengerName + '</span><span class="badge bg-red margin fa fa-flag">' + row.adversaryName + '</span>';
 										}
 										else if(data === 3) {
 											html = '平局';
 										}
 										else if(data === 4) {
-											html = '<span class="looser fa fa-bomb">' + row.challengerName + ' 缺席</span>';
+											html = '<span class="badge bg-black margin fa fa-bomb">' + row.challengerName + ' 缺席</span>';
 										}
 										else if(data === 5) {
-											html = '<span class="looser fa fa-bomb">' + row.adversaryName + ' 缺席</span>';
+											html = '<span class="badge bg-black margin fa fa-bomb">' + row.adversaryName + ' 缺席</span>';
 										}
 										return html;
 									},
