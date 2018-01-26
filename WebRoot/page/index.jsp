@@ -175,9 +175,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		
     	<div  class="row text-center" >
     			
-    			<p class="lead" style="font-size: 3em;">比赛报名：对战管理->对战信息->本轮赛程->选手报名信息->修改报名信息</p>
-    			<p class="lead" style="font-size: 3em;">查看赛程：对战管理->对战信息->本轮赛程->赛程安排</p>
-    			<p class="lead" style="font-size: 3em;">功能持续更新中……</p>
+    			<p class="lead" style="font-size: 2em;">比赛报名：对战管理->对战信息->本轮赛程->选手报名信息->修改报名信息</p>
+    			<p class="lead" style="font-size: 2em;">查看赛程：对战管理->对战信息->本轮赛程->赛程安排</p>
+    			<p class="lead" style="font-size: 2em;">积分排名：积分管理->积分榜->场次名称</p>
+    			<p class="lead" style="font-size: 2em;">功能持续更新中……</p>
     	</div>
 		
     </section>

@@ -9,6 +9,8 @@ public class PlayerProfile {
 	public static final String ACHILLES_QUERY_MAP_LIST_URL = "achilles_query_map_list_url";
 	public static final String ACHILLES_QUERY_SEASON_ROUND_URL = "achilles_query_season_round_url";
 	public static final String ACHILLES_QUERY_ACTIVE_MATCH_INFO_URL = "achilles_query_active_match_info_url";
+	public static final String ACHILLES_QUERY_ROUND_LIST_URL = "achilles_query_round_list_url";
+	public static final String ACHILLES_QUERY_ROUND_SCORE_URL = "achilles_query_round_score_url";
 	
 	private String achillesAddress;
 	private String achillesSaveMatchRegistrationUrl;
@@ -17,7 +19,21 @@ public class PlayerProfile {
 	private String achillesQueryMapListUrl;
 	private String achillesQuerySeasonRoundUrl;
 	private String achillesQueryActiveMatchInfoUrl;
+	private String achillesQueryRoundListUrl;
+	private String achillesQueryRoundScoreUrl;
 	
+	public String getAchillesQueryRoundListUrl() {
+		return achillesQueryRoundListUrl;
+	}
+	public void setAchillesQueryRoundListUrl(String achillesQueryRoundListUrl) {
+		this.achillesQueryRoundListUrl = achillesQueryRoundListUrl;
+	}
+	public String getAchillesQueryRoundScoreUrl() {
+		return achillesQueryRoundScoreUrl;
+	}
+	public void setAchillesQueryRoundScoreUrl(String achillesQueryRoundScoreUrl) {
+		this.achillesQueryRoundScoreUrl = achillesQueryRoundScoreUrl;
+	}
 	public String getAchillesQueryActiveMatchInfoUrl() {
 		return achillesQueryActiveMatchInfoUrl;
 	}
