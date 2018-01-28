@@ -53,6 +53,9 @@ public class ConfigUtil {
 					else if( PlayerProfile.ACHILLES_QUERY_ROUND_SCORE_URL.equals( s ) ) {
 						profile.setAchillesQueryRoundScoreUrl( props.getProperty( s.toString() ) );
 					}
+					else if( PlayerProfile.ACHILLES_QUERY_ACHILLES_CONFIG_URL.equals( s ) ) {
+						profile.setAchillesQueryAchillesConfigInfoUrl( props.getProperty( s.toString() ) );
+					}
 					
 					//System.out.println(s+":"+props.getProperty(s.toString()));  
 				}  

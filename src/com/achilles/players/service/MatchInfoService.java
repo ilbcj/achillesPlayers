@@ -11,6 +11,7 @@ import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 
+import com.achilles.players.dto.AchillesConfig;
 import com.achilles.players.dto.MatchDayInfo;
 import com.achilles.players.dto.MatchInfo;
 import com.achilles.players.dto.MatchRegistrationInfo;
@@ -29,6 +30,7 @@ public class MatchInfoService {
 	private static final String UrlQueryPlatInfo = "http://" + ConfigUtil.getConfigInstance().getAchillesAddress() + ConfigUtil.getConfigInstance().getAchillesQueryMapListUrl();
 	private static final String UrlQuerySeasonRoundInfo = "http://" + ConfigUtil.getConfigInstance().getAchillesAddress() + ConfigUtil.getConfigInstance().getAchillesQuerySeasonRoundUrl();
 	private static final String UrlQueryActiveMatchInfo = "http://" + ConfigUtil.getConfigInstance().getAchillesAddress() + ConfigUtil.getConfigInstance().getAchillesQueryActiveMatchInfoUrl();
+	private static final String UrlQueryAchillesConfigInfo = "http://" + ConfigUtil.getConfigInstance().getAchillesAddress() + ConfigUtil.getConfigInstance().getAchillesQueryAchillesConfigInfoUrl();
 	
 	public MatchRegistrationInfo QueryMatchRegistrationByPlayer( int playerId ) throws Exception {
 		Content ret = Request.Post(UrlQueryRegInfo)
@@ -242,5 +244,44 @@ public class MatchInfoService {
 		}
 		
 		return result;
+	}
+
+	public String QueryPlayerNotice() throws Exception {
+		AchillesConfig config = QueryAchillesConfig();
+		return config.getPlayerNotice();
+	}
+	
+	private AchillesConfig QueryAchillesConfig() throws Exception {
+		Content ret = Request.Post(UrlQueryAchillesConfigInfo)
+				.bodyForm(Form.form().build())
+				.execute().returnContent();
+		
+		String jsonStr = ret.asString();
+		
+		@SuppressWarnings("unchecked")
+		Map<String, String> retMap = JSONObject.fromObject(jsonStr);
+
+		Object object = retMap.get("result");
+		String obj = object.toString();
+		boolean isSuccess = Boolean.parseBoolean(obj);
+		
+		if(!isSuccess) {
+			throw new Exception("query AchillesConfig failed.[mesg:" + retMap.get("message") + "]");
+		}
+
+		Object o = retMap.get( "bonusPlats" );
+		String bonusPlats = o.toString().equals( "null" ) ? "" : o.toString();
+		o = retMap.get( "playerNotice" );
+		String playerNotice = o.toString().equals( "null" ) ? "" : o.toString();
+
+		AchillesConfig result = new AchillesConfig();
+		result.setBonusPlats(bonusPlats);
+		result.setPlayerNotice(playerNotice);		
+		return result;
+	}
+
+	public String QueryBonusPlats() throws Exception {
+		AchillesConfig config = QueryAchillesConfig();
+		return config.getBonusPlats();
 	}
 }

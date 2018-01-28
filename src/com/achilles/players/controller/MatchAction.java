@@ -28,6 +28,25 @@ public class MatchAction extends ActionSupport {
 	private SeasonRound seasonRoundInfo;
 	private List<MatchDayInfo> activeMatchInfo;
 
+	private String playerNotice;
+	private String bonusPlats;
+	
+	public String getBonusPlats() {
+		return bonusPlats;
+	}
+
+	public void setBonusPlats(String bonusPlats) {
+		this.bonusPlats = bonusPlats;
+	}
+
+	public String getPlayerNotice() {
+		return playerNotice;
+	}
+
+	public void setPlayerNotice(String playerNotice) {
+		this.playerNotice = playerNotice;
+	}
+
 	public List<MatchDayInfo> getActiveMatchInfo() {
 		return activeMatchInfo;
 	}
@@ -107,6 +126,7 @@ public class MatchAction extends ActionSupport {
 			regInfo = ms.QueryMatchRegistrationByPlayer( player.getId() );
 			regInfoForEdit = ms.QueryMatchRegistrationForEditByPlayer( player.getId() );
 			plats = ms.QueryPlats();
+			bonusPlats = ms.QueryBonusPlats();
 			seasonRoundInfo = ms.QuerySeasonRoundInfo();
 		}
 		catch(Exception e) {
@@ -157,6 +177,19 @@ public class MatchAction extends ActionSupport {
 		try {
 			MatchInfoService ms = new MatchInfoService();
 			activeMatchInfo = ms.QueryActiveMatchInfo();
+		}
+		catch(Exception e) {
+			message = e.getMessage();
+			return SUCCESS;
+		}
+		this.setResult(true);
+		return SUCCESS;
+	}
+	
+	public String QueryNotice() {
+		try {
+			MatchInfoService ms = new MatchInfoService();
+			playerNotice = ms.QueryPlayerNotice();
 		}
 		catch(Exception e) {
 			message = e.getMessage();

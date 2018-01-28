@@ -327,6 +327,24 @@ function _initACHILLESPLAYERS(o) {
     			o.basePath && $('div.content-wrapper').load(o.basePath + '/page/config/config_maintain.html?random=' + Math.random() + ' .content-wrapper-inner',
     					function(response,status,xhr){$.ACHILLESPLAYERS.checkLoad(response);$.ACHILLESPLAYERS.config.activate();});
     		});*/
+    		
+    		$("#progress_Modal").modal('show');
+    		o.basePath && $.post(o.basePath + "/match/queryNotice.action", {}, function(retObj) {
+				$("#progress_Modal").modal('hide');
+				if(retObj.result == true) {
+					var notice = retObj.playerNotice.split('\n');
+					var message = '';
+					notice.forEach(function(item, index){
+						if(item != null && item.length > 0) {
+							message += '<p>' + item + '</p>';
+						}
+					});
+					if( message != '' ) {
+						$.ACHILLESPLAYERS.tipMessage(message, false);
+					}
+				}
+			}, "json");
+    		
 		}
 	};// end of $.ACHILLESPLAYERS.menu
 	
@@ -351,7 +369,7 @@ function _initACHILLESPLAYERS(o) {
 		modifyRegistration: function () {
 			if( $('#modify_registration').hasClass('disabled') ) {
 				var message = '本轮比赛已过报名时间，不能更改挑战信息！';
-				$.ACHILLESPLAYERS.tipMessage(message, false)
+				$.ACHILLESPLAYERS.tipMessage(message, false);
 				return;
 			}
 			$('#registration_cover').addClass('hidden');
@@ -399,7 +417,12 @@ function _initACHILLESPLAYERS(o) {
 					
 					// 对战地图
 					retObj.plats.forEach(function(plat, index){
-						platOptionStr += '<option value=' + plat.id + '>' + plat.name + '</option>';
+						var platName = plat.name;
+						var platIds = retObj.bonusPlats.split(',');
+						if( $.inArray(''+plat.id, platIds) != -1 ) {
+							platName = plat.name + ' -- 加分地图';
+						}
+						platOptionStr += '<option value=' + plat.id + '>' + platName + '</option>';
 					});
 					
 					// 对战日期
@@ -584,7 +607,7 @@ function _initACHILLESPLAYERS(o) {
 					        columns: [
 					        	{ title: "挑战者", data: "challengerName", width: "200px" },
 					            { title: "擂主", data: "adversaryName", width: "200px" },
-					            { title: "地图", data: "platName", width: "600px" },
+					            { title: "地图", data: "platName", width: "400px" },
 					            { title: "结果", data: "result" },
 					            { title: "比分", data: "score" }					            
 					        ],

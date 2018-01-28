@@ -22,5 +22,8 @@
 		<action name="queryActiveMatchInfo" class="com.achilles.players.controller.MatchAction" method="QueryActiveMatchInfo" >
 			<result name="success" type="json" />
 		</action>
+		<action name="queryNotice" class="com.achilles.players.controller.MatchAction" method="QueryNotice" >
+			<result name="success" type="json" />
+		</action>
 	</package>	
 </struts>
