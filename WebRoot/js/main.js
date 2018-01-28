@@ -833,7 +833,7 @@ function _initACHILLESPLAYERS(o) {
 			for (;i<strs.length ;i++ ) 
 			{ 
 				if(strs[i].length > 0) {
-					memo += strs[i] + ']<br/>'; //分割后的字符输出
+					memo += '<p class="margin" style="font-size: 1.5em;">' + strs[i] + ']</p>'; //分割后的字符输出
 				}
 			} 
 			$('#detail_score_info_message').empty().append(memo);
