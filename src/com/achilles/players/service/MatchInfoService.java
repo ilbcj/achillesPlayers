@@ -100,14 +100,20 @@ public class MatchInfoService {
 		
 		Form form = Form.form()
 		.add("regInfo.playerId",  "" + matchInfo.getPlayerId());
-		for( int i = 0; i < matchInfo.getAdversaryIds().size(); i++ ) {
-			form.add( "regInfo.adversaryIds", "" + matchInfo.getAdversaryIds().get(i) );
+		if( matchInfo.getAdversaryIds() != null ) {
+			for( int i = 0; i < matchInfo.getAdversaryIds().size(); i++ ) {
+				form.add( "regInfo.adversaryIds", "" + matchInfo.getAdversaryIds().get(i) );
+			}
 		}
-		for( int i = 0; i < matchInfo.getPlatIds().size(); i++ ) {
-			form.add( "regInfo.platIds", "" + matchInfo.getPlatIds().get(i) );
+		if( matchInfo.getPlatIds() != null ) {
+			for( int i = 0; i < matchInfo.getPlatIds().size(); i++ ) {
+				form.add( "regInfo.platIds", "" + matchInfo.getPlatIds().get(i) );
+			}
 		}
-		for( int i = 0; i < matchInfo.getDayIds().size(); i++ ) {
-			form.add( "regInfo.dayIds", "" + matchInfo.getDayIds().get(i) );
+		if( matchInfo.getDayIds() != null ) {
+			for( int i = 0; i < matchInfo.getDayIds().size(); i++ ) {
+				form.add( "regInfo.dayIds", "" + matchInfo.getDayIds().get(i) );
+			}
 		}
 		
 		Content ret = Request.Post(UrlSaveRegInfo)
