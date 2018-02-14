@@ -25,12 +25,21 @@ public class MatchAction extends ActionSupport {
 	private MatchRegistrationInfo regInfo;
 	private MatchRegistrationInfoForEdit regInfoForEdit;
 	private List<Plat> plats;
+	private String restDay;
 	private SeasonRound seasonRoundInfo;
 	private List<MatchDayInfo> activeMatchInfo;
 
 	private String playerNotice;
 	private String bonusPlats;
 	
+	public String getRestDay() {
+		return restDay;
+	}
+
+	public void setRestDay(String restDay) {
+		this.restDay = restDay;
+	}
+
 	public String getBonusPlats() {
 		return bonusPlats;
 	}
@@ -126,6 +135,7 @@ public class MatchAction extends ActionSupport {
 			regInfo = ms.QueryMatchRegistrationByPlayer( player.getId() );
 			regInfoForEdit = ms.QueryMatchRegistrationForEditByPlayer( player.getId() );
 			plats = ms.QueryPlats();
+			restDay = ms.QueryRestDay();
 			bonusPlats = ms.QueryBonusPlats();
 			seasonRoundInfo = ms.QuerySeasonRoundInfo();
 		}

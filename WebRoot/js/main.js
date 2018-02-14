@@ -489,8 +489,13 @@ function _initACHILLESPLAYERS(o) {
 					    increaseArea: '20%' // optional
 					});
 					// for rest day
-					$('#week0').iCheck('disable');
-					$('#week0').parent().next().addClass('text-gray');
+					retObj.restDay && retObj.restDay.split(',').forEach(function(dayId, index){
+						if(dayId.trim().length > 0) {
+							$('#week'+ dayId).iCheck('uncheck');
+							$('#week'+ dayId).iCheck('disable');
+							$('#week'+ dayId).parent().next().addClass('text-gray');
+						}
+					});
 					retObj.regInfo.dayIds.forEach(function(dayId){
 						$('#week'+ dayId).iCheck('check');
 					});

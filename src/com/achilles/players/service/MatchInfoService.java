@@ -279,15 +279,23 @@ public class MatchInfoService {
 		String bonusPlats = o.toString().equals( "null" ) ? "" : o.toString();
 		o = retMap.get( "playerNotice" );
 		String playerNotice = o.toString().equals( "null" ) ? "" : o.toString();
+		o = retMap.get( "restDay" );
+		String restDay = o.toString().equals( "null" ) ? "" : o.toString();
 
 		AchillesConfig result = new AchillesConfig();
 		result.setBonusPlats(bonusPlats);
-		result.setPlayerNotice(playerNotice);		
+		result.setPlayerNotice(playerNotice);
+		result.setRestDay(restDay);
 		return result;
 	}
 
 	public String QueryBonusPlats() throws Exception {
 		AchillesConfig config = QueryAchillesConfig();
 		return config.getBonusPlats();
+	}
+
+	public String QueryRestDay() throws Exception {
+		AchillesConfig config = QueryAchillesConfig();
+		return config.getRestDay();
 	}
 }

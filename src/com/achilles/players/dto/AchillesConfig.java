@@ -4,7 +4,14 @@ public class AchillesConfig {
 
 	private String playerNotice;
 	private String bonusPlats;
+	private String restDay;
 	
+	public String getRestDay() {
+		return restDay;
+	}
+	public void setRestDay(String restDay) {
+		this.restDay = restDay;
+	}
 	public String getPlayerNotice() {
 		return playerNotice;
 	}
