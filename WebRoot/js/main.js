@@ -729,7 +729,7 @@ function _initACHILLESPLAYERS(o) {
 			o.basePath && $.post(o.basePath + '/score/queryRoundList.action', {}, function(retObj){
 				if(retObj.result == true) {
 					var rounds = retObj.rounds;
-					var htmlData = '<li class="time-label"><span class="bg-red">第一赛季</span></li>';
+					var htmlData = '<li class="time-label"><span class="bg-red">第二赛季</span></li>';
 					rounds.forEach(function(round, index){
 						htmlData += '<li><i class="fa fa-table bg-blue"></i>';
 						htmlData +='<div class="timeline-item">';
